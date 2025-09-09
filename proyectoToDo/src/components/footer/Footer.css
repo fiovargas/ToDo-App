@@ -1,0 +1,22 @@
+.footer {
+  position: relative; /* ya no está fijo */
+  margin-top: 20px;   /* separación del contenido */
+  background: #0984e3;
+  color: #fff;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  border-top: 3px solid #74b9ff;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.2);
+}
+
+.footerP{
+  font-size: 18px;
+  margin-top: 1px;
+}
+
+.contenedor{
+  display: flex;
+  flex-direction: column;
+  /* min-height: 100vh; */
+}
