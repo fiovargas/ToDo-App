@@ -1,6 +1,6 @@
 .footer {
-  position: relative; /* ya no está fijo */
-  margin-top: 20px;   /* separación del contenido */
+ /*  position: relative; */ /* ya no está fijo */
+  margin-top: auto;   /* separación del contenido */
   background: #0984e3;
   color: #fff;
   text-align: center;
@@ -18,5 +18,5 @@
 .contenedor{
   display: flex;
   flex-direction: column;
-  /* min-height: 100vh; */
+  min-height: 100vh; 
 }

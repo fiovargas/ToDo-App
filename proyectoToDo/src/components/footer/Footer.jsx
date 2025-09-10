@@ -5,12 +5,10 @@ function Footer() {
   return (
 
     <div>
-
-        <div className='contenedor' >
-            <footer className='footer'>
-            <p className='footerP'>🌟 ¡Sigue adelante! Cada tarea completada te acerca a tus metas. 🚀</p>
-            </footer>
-        </div>
+    
+        <footer className='footer'>
+        <p className='footerP'>🌟 ¡Sigue adelante! Cada tarea completada te acerca a tus metas. 🚀</p>
+        </footer>
       
     </div>
   )

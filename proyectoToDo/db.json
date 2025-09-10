@@ -1,3 +1,8 @@
 {
-  "Tareas": []
+  "Tareas": [
+    {
+      "id": "f6a6",
+      "tarea": "cocinar"
+    }
+  ]
 }

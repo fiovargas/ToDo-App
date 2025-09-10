@@ -58,6 +58,23 @@ function IngreTareas() {
     
   };
 
+  const eliminar = async (id) => {
+    try {
+
+      await ServicesTareas.deleteTareas(id);
+
+      setTareasT(prev => prev.filter(t => t.id !== id));
+
+      toast.success('Tarea eliminada')
+
+    } catch (error) {
+      console.log("No se pudo eliminar la tarea", error);
+      
+      alert('No se pudo eliminar la tarea');
+    }
+    
+  }
+
   const editar = async (tarea) => {
     const nuevoTexto = prompt("Editar tarea:", tarea.tarea);
 
@@ -66,10 +83,10 @@ function IngreTareas() {
           const tareaEditada = await ServicesTareas.patchTareas(tarea.id, { tarea: nuevoTexto });
       
           setTareasT(
-                    tareasT.map((t) =>
-                      t.id === tarea.id ? tareaEditada : t
-                    )
-                  );
+            tareasT.map((t) =>
+              t.id === tarea.id ? tareaEditada : t
+            )
+          );
         } catch (error) {
           alert("No se pudo editar la tarea");
         }
@@ -80,54 +97,38 @@ function IngreTareas() {
   return (
     <div>
       
-        <div className='contenedorPrincipal' >
-
-            <h1>Tareas por hacer</h1>
-
+      <div className='contenedorPrincipal' >
+        <h1>Tareas por hacer</h1>
+          
+          <div className='input'>
             <input type="text" id='tareas' placeholder='Tareas' value={tarea} onChange={(e)=>setTarea(e.target.value)}
 
             onKeyDown={(e) => e.key === 'Enter' && agregarTarea()} />
 
             <button className='btnAgregar' onClick={agregarTarea}>Agregar</button>
-            
-        </div>
+          </div>
+      </div>
 
-        <div>
-          <h1 className='titulo1' >Lista de tareas</h1>
+      <div>
+        <h1 className='titulo1'>Lista de tareas</h1>
 
+        {tareasT.length === 0 ? (
+          <p className="noTareas">No existen tareas</p>
+        ) : (
           <ul>
-
-            {tareasT.map((tarea)=>(
-
-              <li key={tarea.id} className='tarea' >
-                {/* <input type="checkbox" disabled/> */}
+            {tareasT.map((tarea) => (
+              <li key={tarea.id} className='tarea'>
                 {tarea.tarea}
 
-                
-
-                <div className='botones' >
-                  <button className='btnEliminar' onClick={async () => {
-                    try {
-
-                      await ServicesTareas.deleteTareas(tarea.id);
-
-                      setTareasT(tareasT.filter(t => t.id !== tarea.id));
-
-                    } catch (error) {
-                      alert('No se pudo eliminar la tarea');
-                    }
-                    
-                  }}> Eliminar </button>
-
-                  <button className='btnEditar' onClick={() => editar(tarea)}
-                  > Editar</button>
+                <div className='botones'>
+                  <button className='btnEliminar' onClick={() => eliminar(tarea.id)}>Eliminar</button>
+                  <button className='btnEditar' onClick={() => editar(tarea)}>Editar</button>
                 </div>
-
               </li>
             ))}
-            
           </ul>
-        </div>
+        )}
+      </div>
     </div>
   )
 }
