@@ -1,14 +1,16 @@
 import React from 'react'
 
 import IngreTareas from '../components/tareas/IngreTareas'
-import Footer from '../components/footer/Footer'
+import Header from '../components/header/Header'
+
 
 function Home() {
   return (
     <div>
 
+      <Header/>
       <IngreTareas/>
-      <Footer/>
+      
     </div>
   )
 }

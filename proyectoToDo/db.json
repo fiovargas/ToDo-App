@@ -1,3 +1,14 @@
 {
-  "Tareas": []
+  "Tareas": [
+    {
+      "id": "a2cf",
+      "tarea": "cocinar",
+      "completada": true
+    },
+    {
+      "id": "9ce3",
+      "tarea": "barrer",
+      "completada": false
+    }
+  ]
 }

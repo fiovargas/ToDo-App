@@ -1,41 +1,31 @@
 html, body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #74b9ff;
-  margin: o;
+  margin: 0;
   padding: 0;
 }
 
-.input{
+/* ///////////////////////////////////////////////// Contenedor Principal ///////////////////////////////////////////////// */
+
+.contenedorPrincipal{
+  margin: 30px auto 80px auto; 
+  padding: 20px;
+  text-align: center;
+}
+
+.input-contenedor{
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 10px;
 }
 
-.contenedorPrincipal{
-  max-width: 400px;
-  margin: 30px auto 80px auto; 
-  padding: 20px;
-  background: #ffffffcc;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  text-align: center;
-}
-
-.titulo1{
-  text-align: center;
-  color: #0984e3;
-  margin-bottom: 20px; 
-}
-
 #tareas {
-  flex: 1;
-  min-width: 200px;
-  width: 70%;
-  padding: 10px;
+  min-width: unset;
+  width: 25%;
+  padding: 13px;
   border: 1px solid #dcdde1;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 20px;
   outline: none;
   margin-right: 10px;
   transition: border 0.3s ease, box-shadow 0.3s ease;
@@ -46,6 +36,76 @@ html, body {
   box-shadow: 0 0 5px rgba(116, 185, 255, 0.6);
 }
 
+.contador-contenedor {
+  display: flex;
+  align-items: center;
+  gap: 5px; 
+  justify-content: flex-end; 
+  margin-left: auto;
+}
+
+.contador {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;          
+  height: 55px;
+  border-radius: 50%;    
+  background-color: hsl(206, 92%, 46%); 
+  color: white;         
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.contador-texto {
+  font-size: 25px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.tareaCompletada {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.tareaTexto {
+  font-size: 20px;
+  color: #2d3436;
+}
+
+.tarea label {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  flex: 1;  
+  cursor: pointer;
+}
+
+/* ///////////////////////////////////////////////// Contenedor 2 ///////////////////////////////////////////////// */
+
+.contenedor2 {
+  max-width: 800px; /* para que no se extienda demasiado en pantallas grandes */
+  margin: 20px auto; /* centrado */
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+/* Lista de tareas */
+.contenedor2 ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+/* ///////////////////////////////////////////////// Lista de tareas ///////////////////////////////////////////////// */
+
 .noTareas {
   text-align: center;
   font-size: 18px;
@@ -53,6 +113,18 @@ html, body {
   margin-top: 20px;
 }
 
+.tarea{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  font-size: 20px;
+}
+
+.checkbox{
+  transform: scale(1.2); 
+  cursor: pointer;
+}
 
 ul {
   list-style: none;
@@ -76,7 +148,6 @@ li {
   transition: background 0.3s ease;
 }
 
-
 li:last-child {
   border-bottom: none;
 }
@@ -85,15 +156,8 @@ li:hover {
   background: #dfe6ff;
 }
 
-.tarea{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-}
-
-
 /* ///////////////////////////////////////////////// Botones ///////////////////////////////////////////////// */
+
 .btnAgregar {
   padding: 10px 18px;
   font-size: 16px;
@@ -110,20 +174,20 @@ button:hover {
   transform: scale(1.05);
 }
 
-.btnEliminar{
+.btnEditar{
   font-size: 16px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: red;
+  color: #0984e3;
   font-weight: bold;
 }
 
-.btn-eliminar:hover {
-  color: darkred;
+.btn-editar:hover {
+  color: #74b9ff;
 }
 
-.btnEditar{
+.btnEliminar{
   font-size: 16px;
   background-color: transparent;
   border: none;
@@ -139,4 +203,31 @@ button:hover {
 .botones {
   display: flex;
   gap: 5px; 
-} 
+}
+
+@media (max-width: 600px) {
+  .input-contenedor {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #tareas, .btnAgregar {
+    width: 100%;
+  }
+
+  .contador-contenedor {
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+
+  .botones {
+    justify-content: flex-end;
+    width: 100%;
+  }
+}

@@ -1,0 +1,17 @@
+.headerContent {
+  display: flex;           /* para alinear horizontalmente */
+  align-items: center;     /* centra verticalmente logo y título */
+  gap: 10px;               /* espacio entre logo y título */
+}
+
+.Logo {
+    margin: 10px;
+  width: 100px;             /* ajusta el tamaño del logo */
+  height: 100px;            /* ajusta la altura para mantener proporción */
+  object-fit: contain;
+}
+
+.NombreApp {
+  font-size: 2rem;         /* tamaño del título */
+  margin: 0;               /* quitar márgenes extra */
+}
