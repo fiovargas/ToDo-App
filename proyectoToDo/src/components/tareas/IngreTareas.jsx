@@ -54,7 +54,7 @@ function IngreTareas() {
       console.log(tareaRespuesta);
       console.log("Tarea agregada:", tarea);
 
-      toast.success('Tarea agregada');
+      toast.success('Tarea agregada con éxito');
 
       setTarea(""); 
       } catch (error) {
@@ -64,36 +64,71 @@ function IngreTareas() {
     
   };
 
-  const eliminar = async (id) => {
-    try {
+const eliminar = (id) => {
 
-      await ServicesTareas.deleteTareas(id);
+  toast.info(
+    <div className="toastConfirm">
+      <p>¿Seguro que quieres eliminar esta tarea?</p>
+      <div className="toastButtons">
+       
+        <button className="btnConfirm" onClick={async () => {
 
-      setTareasT((prev) => prev.filter((t) => t.id !== id));
+            try {
+              await ServicesTareas.deleteTareas(id); // elimina en backend
+              setTareasT((prev) => prev.filter((t) => t.id !== id)); // actualiza lista
+              toast.dismiss(); // cierra modal
+              toast.success("Tarea eliminada con éxito");
 
-      toast.success('Tarea eliminada');
+            } catch (error) {
+              toast.error("No se pudo eliminar la tarea");
+            }
+          }}
 
-    } catch (error) {
+        >Sí</button>
 
-      console.log("No se pudo eliminar la tarea", error);
-      alert('No se pudo eliminar la tarea');
-    }
-  };
+        <button className="btnCancel" onClick={() => toast.dismiss()}>No</button>
+      </div>
+    </div>,
+    {autoClose: false, closeOnClick: false, draggable: false}
+  );
+};
 
-  const editar = async (tarea) => {
-    const nuevoTexto = prompt("Editar tarea:", tarea.tarea);
 
-      if (nuevoTexto && nuevoTexto.trim() !== "") {
-        try {
-          const tareaEditada = await ServicesTareas.patchTareas(tarea.id, { tarea: nuevoTexto });
+  const editar = (tarea) => {
+  let nuevoTexto = tarea.tarea;
+
+  toast.info(
+    <div className="toastConfirm">
       
-          setTareasT(
-            tareasT.map((t) => (t.id === tarea.id ? tareaEditada : t))
-          );
-        } catch (error) {
-          alert("No se pudo editar la tarea");
-        }
-      }
+      <p>Editar tarea:</p>
+      <input type="text" className="editInputToast" defaultValue={tarea.tarea} onChange={(e) => (nuevoTexto = e.target.value)}/>
+
+        <div className="toastButtons">
+
+          <button className="btnConfirm" onClick={async () => {
+
+              if (!nuevoTexto || nuevoTexto.trim() === "") {
+                toast.error("No puedes dejar espacios vacíos");
+                return;
+              }
+
+              try {
+                const tareaEditada = await ServicesTareas.patchTareas(tarea.id, { tarea: nuevoTexto });
+                setTareasT(tareasT.map((t) => (t.id === tarea.id ? tareaEditada : t)));
+                toast.dismiss(); // cierra el toast de edición
+                toast.success("Tarea editada con éxito");
+
+              } catch (error) {
+                toast.error("No se pudo editar la tarea");
+              }
+            }}
+          >Guardar</button>
+          
+          <button className="btnCancel" onClick={() => toast.dismiss()}>Cancelar</button>
+        </div>
+    </div>,
+    { autoClose: false, closeOnClick: false, draggable: false }
+  );
 };
 
 const toggleCompletada = async (tarea) => {
@@ -101,6 +136,7 @@ const toggleCompletada = async (tarea) => {
   try {
     const tareaActualizada = await ServicesTareas.patchTareas(tarea.id, {
       completada: !tarea.completada,
+      fechaCompletada: !tarea.completada ? new Date().toISOString() : null,
     });
 
     const nuevasTareas = tareasT.map((ta) => ta.id === tarea.id ? tareaActualizada : ta);
@@ -151,14 +187,20 @@ const toggleCompletada = async (tarea) => {
                   <label>
 
                     <input id='checkbox' type="checkbox" checked={tarea.completada} onChange={() => toggleCompletada(tarea)}/>
-                    <span className={tarea.completada ? "tareaTexto tareaCompletada" : "tareaTexto"}>{tarea.tarea}</span>
+                    <span className={tarea.completada ? "completada" : ""}>{tarea.tarea}</span>
 
+                  
+
+                    {tarea.completada && tarea.fechaCompletada && (
+                      <div className="fechaCompletada">
+                        Completada: {new Date(tarea.fechaCompletada).toLocaleString()}
+                      </div>
+                    )}
                   </label>
-
-                  <div className='botones'>
+                  
+                  <div className='botonesIngreT'>
                     <button className='btnEditar' onClick={() => editar(tarea)}>Editar</button>
                     <button className='btnEliminar' onClick={() => eliminar(tarea.id)}>Eliminar</button>
-                  
                   </div>
                 </li>
               ))}

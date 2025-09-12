@@ -1,42 +1,76 @@
 import React, { useState }  from 'react'
-import { Link,useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import ServicesRegister from "../../services/ServicesRegister";
+
 
 function Login() {
 
-  const navegar = useNavigate()
+  const navegar = useNavigate();
 
     const [nombre,setNombre]=useState("")
     const [password,setPassword]=useState("")
 
-    const iniciarsesión = () =>{
+    const iniciarSesion = async () => {
 
-      console.log(nombre,password);
+      if (!nombre || !password) {
+      toast.error("Debes completar todos los campos");
+      return;
+    }
+
+    if (nombre.length < 3) {
+          toast.error("El nombre debe tener mínimo 3 caracteres");
+          return;
+        }
     
-      // Aqui se llamario el servicio de Post para guardar la info a la DB o al Json server
+        // Validación contraseña mínimo 8 caracteres
+        if (password.length < 8) {
+          toast.error("La contraseña debe tener mínimo 8 caracteres");
+          return;
+        }
+    
+        if (!email.includes("@") || !email.includes(".")) {
+          toast.error("El correo debe contener '@' y '.'");
+          return;
+        }
 
-      setMensaje("Inicio de sesión exitoso")
+    try {
+      const usuarios = await ServicesRegister.getUsers()
+      const usuarioEncontrado = usuarios.find(
+        (user) => user.nombre === nombre && user.password === password);
 
-      navegar("/IngreTareas")
+        if (usuarioEncontrado) {
+          toast.success("Inicio de sesión exitoso");
+          navegar("/Home");
+        } else {
+          toast.error("Usuario o contraseña incorrectos");
+        }
 
+    } catch (error) {
+      toast.error("Error al conectar con el servidor");
+      console.error("Error en login:", error);
+    }
   };
 
   return (
     <div>
       
       <div>
-        <div>
-          <label htmlFor="Nombre de usuario">Nombre de usuario</label><br />
+        <div className='auth-contenedor'>
+
+          <h2>Inicio de sesión</h2>
+
+          <label className='nombre' htmlFor="nombre">Nombre de usuario</label>
           <input type="text" id='nombre' placeholder='Nombre de usuario' value={nombre} onChange={(e)=>setNombre(e.target.value)} />
-          <br />
-          <label htmlFor="Contraseña">Contraseña</label><br />
-          <input type="text" id='password' placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)} />
-          <br />
+          
+          <label className='password' htmlFor="Contraseña">Contraseña</label>
+          <input type="password" id='password' placeholder='Password' value={password} onChange={(e)=>setPassword(e.target.value)} />
+          
+          <button className='auth-button' onClick={iniciarSesion} >Iniciar sesión</button>
         </div>
       </div>
 
-        <button onClick={iniciarsesión} >Iniciar sesión</button>
-
-        <p>Si desea hacer tareas ve a <Link to ="/Home">Home</Link> </p>
+  
 
     </div>
   )

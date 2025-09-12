@@ -9,7 +9,10 @@ function Header() {
          <header className="headerContent">
 
             <img className="Logo" src="https://cdn-icons-png.flaticon.com/512/14991/14991808.png" alt="Logo"/>
-            <h1 className="NombreApp">PlanifyTask</h1>
+            
+            <div>
+            <h1 className="NombreApp">Tasks of the Day</h1>
+            </div>
             
          </header>
 

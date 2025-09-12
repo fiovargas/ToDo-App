@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import ServicesRegister from '../../services/ServicesRegister'
+import { toast } from 'react-toastify'
+
+import './Register.css'
 
 
 function Register() {
@@ -32,50 +35,75 @@ function Register() {
 
     }, []);
  
-    const cargarDatos = () =>{
+    const cargarDatos = async () =>{
 
       if (!nombre || !email || !password) {
-        setMensaje("Todos los campos son obligatorios");
+        toast.error("No puedes dejar espacios vacíos");
         return;
     }
+
+    if (nombre.length < 3) {
+      toast.error("El nombre debe tener mínimo 3 caracteres");
+      return;
+    }
+
+    if (password.length < 8) {
+      toast.error("La contraseña debe tener mínimo 8 caracteres");
+      return;
+    }
+
+    if (!email.includes("@") || !email.includes(".")) {
+      toast.error("El correo debe contener '@' y '.'");
+      return;
+    }
+
       console.log(nombre, email, password);
       
-       // Aqui se llamario el servicio de Post para guardar la info a la DB o al Json server
+       try {
+        const nuevoUsuario = {
+          nombre: nombre,
+          email: email,
+          password: password
+        };
 
-      setMensaje("Registro exitoso")
+          await ServicesRegister.postUsers(nuevoUsuario);
 
-      navegar("/Login")
+          toast.success('Registro guardado con éxito');
+          navegar("/Login")
+        
+       } catch (error) {
+          toast.error("Error al registrar el usuario");
+          console.error(error);
+       }
     };
 
   return (
     <div>
         <div>
 
-          <h2>Regitro de Usuarios</h2>
+          
 
-          <div>
-            <label htmlFor="Nombre">Nombre de usuario</label>
+          <div className='auth-contenedor' >
+
+            <h2>Regitro de Usuarios</h2>
+
+            <label className='nombre' htmlFor="Nombre">Nombre de usuario</label>
             <input type="text" id='nombre' placeholder='Nombre' value={nombre} onChange={(e)=>setNombre(e.target.value)} />
-            <br />
-            <label htmlFor="Email">Email</label>
+            
+            <label className='email' htmlFor="Email">Email</label>
             <input type="email" id='email' placeholder='Email' value={email} onChange={(e)=>setEmail(e.target.value)} />
-            <br />
-            <label htmlFor="Password">Password</label>
+            
+            <label className='password' htmlFor="Password">Password</label>
             <input type="password" id='password' placeholder='password' value={password} onChange={(e)=>setPassword(e.target.value)} />
 
+            <button className='auth-button' onClick={cargarDatos}>Registrarse</button>
+
+            <Link to ="/Login">Ya tengo cuenta</Link>
           </div>
-
-          <button onClick={cargarDatos}>Registrarse</button>
-
-          {mensaje && <p className="mensaje">{mensaje}</p>}
-
-          <p>Si desea iniciar sesión ve a <Link to ="/Login">Login</Link> </p>
           
         </div>
 
-    </div>
-
-        
+    </div>     
   )
 }
 

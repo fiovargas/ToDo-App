@@ -1,14 +1,66 @@
 {
   "Tareas": [
     {
-      "id": "a2cf",
-      "tarea": "cocinar",
-      "completada": true
+      "id": "40d6",
+      "tarea": "cocinar hasta las 10pm",
+      "completada": false,
+      "fechaCompletada": null
     },
     {
-      "id": "9ce3",
+      "id": "f594",
       "tarea": "barrer",
-      "completada": false
+      "completada": false,
+      "fechaCompletada": null
+    },
+    {
+      "id": "3205",
+      "tarea": "lavar la casa mañana",
+      "completada": false,
+      "fechaCompletada": null
+    }
+  ],
+  "Usuarios": [
+    {
+      "id": "f460",
+      "nombre": "fio",
+      "email": "fvargas2001fwd@gmail.com",
+      "password": "1234567"
+    },
+    {
+      "id": "1146",
+      "nombre": "fio",
+      "email": "fvargas2001fwd@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "59c7",
+      "nombre": "fio",
+      "email": "fvargas2001fwd@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "d0ac",
+      "nombre": "fio",
+      "email": "fvargas2001fwd@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "a3a6",
+      "nombre": "fio",
+      "email": "fvargas2001fwd@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "b9c9",
+      "nombre": "fio",
+      "email": "fvargas2001fwd@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "7bdb",
+      "nombre": "fio",
+      "email": "fvargas20fwd@gmail.com",
+      "password": "123456789"
     }
   ]
 }
