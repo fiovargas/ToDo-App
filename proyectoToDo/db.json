@@ -4,20 +4,27 @@
       "id": "d57b",
       "tarea": "cocinar",
       "completada": false,
-      "userId": "1838"
+      "userId": "1838",
+      "fechaCompletada": null
     },
     {
       "id": "6cd5",
       "tarea": "barrer",
       "completada": false,
-      "userId": "1838"
+      "userId": "1838",
+      "fechaCompletada": null
     },
     {
-      "id": "f1ee",
+      "id": "7129",
       "tarea": "cocinar",
       "completada": false,
-      "userId": "f460",
-      "fechaCompletada": null
+      "userId": "f460"
+    },
+    {
+      "id": "0449",
+      "tarea": "ir al super",
+      "completada": false,
+      "userId": "1838"
     }
   ],
   "Usuarios": [

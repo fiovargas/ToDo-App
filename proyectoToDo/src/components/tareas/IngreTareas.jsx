@@ -21,6 +21,8 @@ function IngreTareas() {
     }
   }, [navegar]);
 
+
+  // Traer tareas del usuario
   useEffect(() => {
     const fetchTareas = async () => {
       try {
@@ -39,7 +41,7 @@ function IngreTareas() {
     };
 
     fetchTareas();
-  }, [navegar]);
+  }, []);
 
 
   const cerrarSesion = () => {
@@ -47,7 +49,6 @@ function IngreTareas() {
     toast.info("Sesión cerrada");
     navegar("/Login", { replace: true });
   };
-
 
   const agregarTarea = async () => {
     if(tarea.trim() === "") {
@@ -70,16 +71,13 @@ function IngreTareas() {
 
       const tareaRespuesta = await ServicesTareas.postTareas(infoTarea);
       
-      setTareasT([...tareasT, tareaRespuesta]);
-
-      console.log(tareaRespuesta);
-      console.log("Tarea agregada:", tarea);
+      setTareasT(prev => [...prev, tareaRespuesta]);
 
       toast.success('Tarea agregada con éxito');
 
       setTarea(""); 
-      } catch (error) {
 
+      } catch (error) {
         console.error("Error al agregar la tarea", error);
       };
     
