@@ -1,50 +1,71 @@
 import React, { useEffect, useState } from 'react'
 import ServicesTareas from '../../services/ServicesTareas';
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 import './Tareas.css'
 
-
 function IngreTareas() {
+
+  const navegar = useNavigate();
 
   const [tarea, setTarea] = useState("");
   const [tareasT, setTareasT] = useState([]);
   const [completadas, setCompletadas] = useState(0);
 
-  useEffect(()=>{
-    const fetchTareas = async () =>{
-      
+  useEffect(() => {
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+      toast.info("Debes iniciar sesión");
+      navegar("/Login", { replace: true });
+    }
+  }, [navegar]);
+
+  useEffect(() => {
+    const fetchTareas = async () => {
       try {
-        
-        const tareasTraidas = await ServicesTareas.getTareas()
-        console.log(tareasTraidas);
-        
-        setTareasT(tareasTraidas);
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        if (!usuario) return;
 
-        const totalCompletadas = tareasTraidas.filter((t) => t.completada).length;
+        const tareasTraidas = await ServicesTareas.getTareas();
+        const tareasUsuario = tareasTraidas.filter(t => t.userId === usuario.id);
+        setTareasT(tareasUsuario);
+
+        const totalCompletadas = tareasUsuario.filter(t => t.completada).length;
         setCompletadas(totalCompletadas);
-
       } catch (error) {
-        
-        console.log("Error al traer las tareas de los servicios");
+        console.log("Error al traer las tareas de los servicios", error);
       }
     };
 
-      fetchTareas()
+    fetchTareas();
+  }, [navegar]);
 
-  },[]);
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("usuario");
+    toast.info("Sesión cerrada");
+    navegar("/Login", { replace: true });
+  };
+
 
   const agregarTarea = async () => {
     if(tarea.trim() === "") {
       toast.error('Ingrese un texto')
       return;
     }
-      
-      try {
 
-        const infoTarea = {
+  try {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+      if (!usuario) {
+        toast.error("No se ha iniciado sesión");
+        return;
+      }
+      
+      const infoTarea = {
         tarea: tarea,
         completada: false,
+        userId: usuario.id,
       };
 
       const tareaRespuesta = await ServicesTareas.postTareas(infoTarea);
@@ -154,7 +175,10 @@ const toggleCompletada = async (tarea) => {
   return (
     <div>
       
-      <div className='contenedorPrincipal' >
+      <div className='contenedorPrincipal'>
+        <div className='header-tareas'>
+          <button className='btnCerrarSesion' onClick={cerrarSesion}>Cerrar Sesión</button>
+        </div>
         
           <div className='input-contenedor'>
             
@@ -199,8 +223,8 @@ const toggleCompletada = async (tarea) => {
                   </label>
                   
                   <div className='botonesIngreT'>
-                    <button className='btnEditar' onClick={() => editar(tarea)}>Editar</button>
-                    <button className='btnEliminar' onClick={() => eliminar(tarea.id)}>Eliminar</button>
+                    <button className='btnEditar' onClick={() => editar(tarea)}>✏️</button>
+                    <button className='btnEliminar' onClick={() => eliminar(tarea.id)}>🗑️</button>
                   </div>
                 </li>
               ))}

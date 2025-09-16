@@ -8,74 +8,76 @@ import './Register.css'
 
 function Register() {
 
- const navegar = useNavigate()
+const navegar = useNavigate()
 
-    const [nombre,setNombre] = useState("")
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
-    const [mensaje, setMensaje] = useState("")
+  const [nombre, setNombre] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
 
-    useEffect(() =>{
+  useEffect(() => {
+    const usuario = localStorage.getItem("usuario")
+    if (usuario) {
+      navegar("/Home", { replace: true }) // reemplaza el historial
+    }
+  }, [navegar])
 
-      const fecthUsuarios = async () =>{ 
+  const cargarDatos = async () => {
 
-        try {
-          
-          const usuariosTraidos = await ServicesRegister.getUsuarios();
-          
-          console.log(usuariosTraidos);
-
-        } catch (error) {
-          
-          console.log("Error al traer los usuarios del servicio", error)
-        }
-      };
-
-      fecthUsuarios();
-
-    }, []);
- 
-    const cargarDatos = async () =>{
-
-      if (!nombre || !email || !password) {
-        toast.error("No puedes dejar espacios vacíos");
-        return;
+    if (!nombre || !email || !password) {
+      toast.error("No puedes dejar espacios vacíos")
+      return
     }
 
     if (nombre.length < 3) {
-      toast.error("El nombre debe tener mínimo 3 caracteres");
-      return;
+      toast.error("El nombre debe tener mínimo 3 caracteres")
+      return
     }
 
     if (password.length < 8) {
-      toast.error("La contraseña debe tener mínimo 8 caracteres");
-      return;
+      toast.error("La contraseña debe tener mínimo 8 caracteres")
+      return
     }
 
     if (!email.includes("@") || !email.includes(".")) {
-      toast.error("El correo debe contener '@' y '.'");
-      return;
+      toast.error("El correo debe contener '@' y '.'")
+      return
     }
 
-      console.log(nombre, email, password);
-      
-       try {
-        const nuevoUsuario = {
-          nombre: nombre,
-          email: email,
-          password: password
-        };
+    try {
 
-          await ServicesRegister.postUsers(nuevoUsuario);
+      const usuariosActuales = await ServicesRegister.getUsers()
 
-          toast.success('Registro guardado con éxito');
-          navegar("/Login")
-        
-       } catch (error) {
-          toast.error("Error al registrar el usuario");
-          console.error(error);
-       }
-    };
+      const nombreExistente = usuariosActuales.find(
+        (user) => user.nombre.toLowerCase() === nombre.toLowerCase()
+      )
+      const emailExistente = usuariosActuales.find(
+        (user) => user.email.toLowerCase() === email.toLowerCase()
+      )
+
+      if (nombreExistente) {
+        toast.error("El nombre de usuario ya existe")
+        return
+      }
+
+      if (emailExistente) {
+        toast.error("El correo ya está registrado")
+        return
+      }
+
+      const nuevoUsuario = { nombre, email, password }
+      await ServicesRegister.postUsers(nuevoUsuario)
+
+      toast.success("Registro guardado con éxito")
+      setNombre("")
+      setEmail("")
+      setPassword("")
+      navegar("/Login")
+
+    } catch (error) {
+      toast.error("Error al registrar el usuario")
+      console.error("Error en registro:", error)
+    }
+  }
 
   return (
     <div>
@@ -85,7 +87,7 @@ function Register() {
 
           <div className='auth-contenedor' >
 
-            <h2>Regitro de Usuarios</h2>
+            <h2>Registro de Usuarios</h2>
 
             <label className='nombre' htmlFor="Nombre">Nombre de usuario</label>
             <input type="text" id='nombre' placeholder='Nombre' value={nombre} onChange={(e)=>setNombre(e.target.value)} />

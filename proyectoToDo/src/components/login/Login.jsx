@@ -1,4 +1,4 @@
-import React, { useState }  from 'react'
+import React, { useEffect, useState }  from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ServicesRegister from "../../services/ServicesRegister";
@@ -7,9 +7,16 @@ import ServicesRegister from "../../services/ServicesRegister";
 function Login() {
 
   const navegar = useNavigate();
+  const [nombre,setNombre]=useState("")
+  const [password,setPassword]=useState("")
 
-    const [nombre,setNombre]=useState("")
-    const [password,setPassword]=useState("")
+    useEffect(() => {
+    const usuario = localStorage.getItem("usuario")
+    if (usuario) {
+      navegar("/Home", { replace: true })
+    }
+  }, [navegar])
+
 
     const iniciarSesion = async () => {
 
@@ -23,34 +30,37 @@ function Login() {
           return;
         }
     
-        // Validación contraseña mínimo 8 caracteres
         if (password.length < 8) {
           toast.error("La contraseña debe tener mínimo 8 caracteres");
           return;
         }
-    
-        if (!email.includes("@") || !email.includes(".")) {
-          toast.error("El correo debe contener '@' y '.'");
-          return;
-        }
 
-    try {
-      const usuarios = await ServicesRegister.getUsers()
+     try {
+      const usuarios = await ServicesRegister.getUsers();
       const usuarioEncontrado = usuarios.find(
-        (user) => user.nombre === nombre && user.password === password);
+        (user) => user.nombre === nombre && user.password === password
+      );
 
-        if (usuarioEncontrado) {
-          toast.success("Inicio de sesión exitoso");
-          navegar("/Home");
-        } else {
-          toast.error("Usuario o contraseña incorrectos");
-        }
+      if (usuarioEncontrado) {
+        localStorage.setItem("usuario", JSON.stringify({
+
+          id: usuarioEncontrado.id,
+          nombre: usuarioEncontrado.nombre,
+          email: usuarioEncontrado.email
+        }))
+        
+        toast.success("Inicio de sesión exitoso", { toastId: "loginExitoso" });
+        navegar("/Home", {replace: true});
+      } else {
+        toast.error("Usuario o contraseña incorrectos", { toastId: "loginError" });
+      }
 
     } catch (error) {
-      toast.error("Error al conectar con el servidor");
+      toast.error("Error al conectar con el servidor", { toastId: "serverError" });
       console.error("Error en login:", error);
     }
   };
+  
 
   return (
     <div>

@@ -255,6 +255,31 @@ button:hover {
   }
 }
 
+.header-tareas {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  margin-bottom: 15px;
+  flex-direction: row-reverse;
+}
+
+
+/* Botón de cerrar sesión */
+.btnCerrarSesion {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.btnCerrarSesion:hover {
+  background-color: #ff7875;
+}
+
 /* ///////////////////////////////////////////////// Toast ///////////////////////////////////////////////// */
 .toastConfirm {
   display: flex;

@@ -1,21 +1,22 @@
 {
   "Tareas": [
     {
-      "id": "40d6",
-      "tarea": "cocinar hasta las 10pm",
+      "id": "d57b",
+      "tarea": "cocinar",
       "completada": false,
-      "fechaCompletada": null
+      "userId": "1838"
     },
     {
-      "id": "f594",
+      "id": "6cd5",
       "tarea": "barrer",
       "completada": false,
-      "fechaCompletada": null
+      "userId": "1838"
     },
     {
-      "id": "3205",
-      "tarea": "lavar la casa mañana",
+      "id": "f1ee",
+      "tarea": "cocinar",
       "completada": false,
+      "userId": "f460",
       "fechaCompletada": null
     }
   ],
@@ -24,42 +25,12 @@
       "id": "f460",
       "nombre": "fio",
       "email": "fvargas2001fwd@gmail.com",
-      "password": "1234567"
-    },
-    {
-      "id": "1146",
-      "nombre": "fio",
-      "email": "fvargas2001fwd@gmail.com",
       "password": "123456789"
     },
     {
-      "id": "59c7",
-      "nombre": "fio",
-      "email": "fvargas2001fwd@gmail.com",
-      "password": "123456789"
-    },
-    {
-      "id": "d0ac",
-      "nombre": "fio",
-      "email": "fvargas2001fwd@gmail.com",
-      "password": "123456789"
-    },
-    {
-      "id": "a3a6",
-      "nombre": "fio",
-      "email": "fvargas2001fwd@gmail.com",
-      "password": "123456789"
-    },
-    {
-      "id": "b9c9",
-      "nombre": "fio",
-      "email": "fvargas2001fwd@gmail.com",
-      "password": "123456789"
-    },
-    {
-      "id": "7bdb",
-      "nombre": "fio",
-      "email": "fvargas20fwd@gmail.com",
+      "id": "1838",
+      "nombre": "Carlos",
+      "email": "carlos@gmail.com",
       "password": "123456789"
     }
   ]
